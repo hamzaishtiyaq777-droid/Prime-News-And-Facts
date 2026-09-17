@@ -1,0 +1,1496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Prime News & Facts</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+    }
+
+    body {
+        background: #f3f6fa;
+        color: #17202a;
+    }
+
+    /* HEADER */
+    header {
+        background: linear-gradient(135deg, #071a3d, #0d47a1);
+        color: white;
+        padding: 18px 7%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        box-shadow: 0 3px 15px rgba(0,0,0,0.2);
+    }
+
+    .logo {
+        font-size: 26px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .logo span {
+        color: #4fc3f7;
+    }
+
+    nav {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    nav button {
+        background: transparent;
+        color: white;
+        border: none;
+        padding: 10px 14px;
+        cursor: pointer;
+        font-size: 15px;
+        border-radius: 7px;
+        transition: 0.2s;
+    }
+
+    nav button:hover {
+        background: rgba(255,255,255,0.15);
+    }
+
+    /* PAGES */
+    .page {
+        display: none;
+        min-height: calc(100vh - 80px);
+    }
+
+    .page.active {
+        display: block;
+    }
+
+    /* HOME */
+    .hero {
+        min-height: 470px;
+        background:
+            linear-gradient(rgba(4,19,45,0.8), rgba(4,19,45,0.8)),
+            url("https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=1600&q=80");
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        color: white;
+        padding: 30px;
+    }
+
+    .hero-content {
+        max-width: 850px;
+    }
+
+    .hero h1 {
+        font-size: 55px;
+        margin-bottom: 15px;
+    }
+
+    .hero h1 span {
+        color: #4fc3f7;
+    }
+
+    .hero p {
+        font-size: 20px;
+        line-height: 1.6;
+        color: #e4edf8;
+    }
+
+    .home-sections {
+        max-width: 1100px;
+        margin: 45px auto;
+        padding: 0 20px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 25px;
+    }
+
+    .home-box {
+        background: white;
+        border-radius: 15px;
+        padding: 30px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    }
+
+    .home-box h2 {
+        color: #0d47a1;
+        margin-bottom: 12px;
+    }
+
+    .home-box p {
+        line-height: 1.6;
+        color: #555;
+    }
+
+    .main-btn {
+        margin-top: 20px;
+        background: #0d47a1;
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    .main-btn:hover {
+        background: #083477;
+    }
+
+    /* GENERAL CONTENT */
+    .container {
+        max-width: 1050px;
+        margin: auto;
+        padding: 45px 20px;
+    }
+
+    .section-title {
+        text-align: center;
+        margin-bottom: 35px;
+    }
+
+    .section-title h1 {
+        font-size: 38px;
+        color: #092653;
+    }
+
+    .section-title p {
+        color: #687789;
+        margin-top: 8px;
+    }
+
+    /* NEWS / FACT CARDS */
+    .article-card {
+        background: white;
+        min-height: 190px;
+        margin-bottom: 22px;
+        border-radius: 14px;
+        overflow: hidden;
+        display: flex;
+        box-shadow: 0 4px 18px rgba(0,0,0,0.08);
+        border-left: 5px solid #0d47a1;
+    }
+
+    .article-text {
+        width: 75%;
+        padding: 25px;
+    }
+
+    .article-image {
+        width: 25%;
+        min-height: 190px;
+        background: #e9eef5;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+    }
+
+    .article-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .article-image.no-image {
+        display: none;
+    }
+
+    .article-card.no-image .article-text {
+        width: 100%;
+    }
+
+    .article-text h2 {
+        color: #092653;
+        margin-bottom: 10px;
+    }
+
+    .article-text p {
+        color: #4d5966;
+        line-height: 1.6;
+    }
+
+    .date {
+        display: inline-block;
+        margin-bottom: 12px;
+        background: #e6f3ff;
+        color: #0d47a1;
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: bold;
+    }
+
+    /* FEEDBACK */
+    .feedback-box {
+        max-width: 700px;
+        margin: auto;
+        background: white;
+        padding: 35px;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    }
+
+    .feedback-box label {
+        display: block;
+        margin-top: 18px;
+        margin-bottom: 7px;
+        font-weight: bold;
+    }
+
+    .feedback-box input,
+    .feedback-box textarea {
+        width: 100%;
+        padding: 13px;
+        border: 1px solid #ccd5df;
+        border-radius: 8px;
+        font-size: 15px;
+        outline: none;
+    }
+
+    .feedback-box textarea {
+        height: 120px;
+        resize: vertical;
+    }
+
+    .feedback-box input:focus,
+    .feedback-box textarea:focus {
+        border-color: #0d47a1;
+    }
+
+    .stars {
+        display: flex;
+        gap: 8px;
+        margin-top: 5px;
+    }
+
+    .star {
+        font-size: 38px;
+        color: #cbd2d9;
+        cursor: pointer;
+        transition: 0.15s;
+    }
+
+    .star.selected {
+        color: #ffc107;
+    }
+
+    .feedback-list {
+        max-width: 700px;
+        margin: 30px auto;
+    }
+
+    .feedback-item {
+        background: white;
+        padding: 20px;
+        margin-bottom: 15px;
+        border-radius: 12px;
+        box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+    }
+
+    .feedback-stars {
+        color: #ffc107;
+        font-size: 20px;
+        margin: 5px 0;
+    }
+
+    /* ADMIN */
+    .admin-login,
+    .admin-panel {
+        max-width: 850px;
+        margin: auto;
+        background: white;
+        padding: 35px;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    }
+
+    .admin-login {
+        max-width: 450px;
+    }
+
+    .admin-panel {
+        display: none;
+    }
+
+    .admin-panel h2 {
+        color: #092653;
+        margin-bottom: 20px;
+    }
+
+    .admin-panel h3 {
+        color: #0d47a1;
+        margin-top: 30px;
+        margin-bottom: 15px;
+    }
+
+    .admin-input {
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 10px;
+        border: 1px solid #ccd5df;
+        border-radius: 7px;
+    }
+
+    .admin-textarea {
+        width: 100%;
+        height: 100px;
+        padding: 12px;
+        margin-bottom: 10px;
+        border: 1px solid #ccd5df;
+        border-radius: 7px;
+        resize: vertical;
+    }
+
+    .item-editor {
+        border: 1px solid #dce3eb;
+        padding: 18px;
+        border-radius: 10px;
+        margin-bottom: 15px;
+        background: #f8fafc;
+    }
+
+    .item-editor h4 {
+        margin-bottom: 12px;
+        color: #333;
+    }
+
+    .admin-message {
+        margin-top: 12px;
+        font-weight: bold;
+    }
+
+    .logout-btn {
+        background: #d32f2f;
+        margin-left: 10px;
+    }
+
+    .logout-btn:hover {
+        background: #a92323;
+    }
+
+    /* IMAGE BROWSE */
+    .image-label {
+        display: inline-block;
+        background: #0d47a1;
+        color: white;
+        padding: 10px 15px;
+        border-radius: 7px;
+        cursor: pointer;
+        margin-top: 3px;
+        margin-bottom: 10px;
+    }
+
+    .image-label:hover {
+        background: #083477;
+    }
+
+    .image-input {
+        display: none;
+    }
+
+    .image-name {
+        color: #687789;
+        font-size: 13px;
+        margin-left: 8px;
+    }
+
+    .image-preview {
+        display: none;
+        width: 150px;
+        height: 90px;
+        object-fit: cover;
+        border-radius: 8px;
+        margin-top: 8px;
+        border: 1px solid #ccd5df;
+    }
+
+    /* FOOTER */
+    footer {
+        background: #071a3d;
+        color: #b9c9dd;
+        text-align: center;
+        padding: 25px;
+        margin-top: 30px;
+    }
+
+    /* MOBILE */
+    @media(max-width: 700px) {
+
+        header {
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .hero h1 {
+            font-size: 38px;
+        }
+
+        .hero p {
+            font-size: 16px;
+        }
+
+        .home-sections {
+            grid-template-columns: 1fr;
+        }
+
+        .article-card {
+            flex-direction: column;
+        }
+
+        .article-text {
+            width: 100%;
+        }
+
+        .article-image {
+            width: 100%;
+            height: 190px;
+        }
+
+        .article-card.no-image .article-text {
+            width: 100%;
+        }
+
+        nav {
+            justify-content: center;
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo" onclick="showPage('home')">
+        Prime <span>News & Facts</span>
+    </div>
+
+    <nav>
+        <button onclick="showPage('home')">Home</button>
+        <button onclick="showPage('news')">News</button>
+        <button onclick="showPage('facts')">Facts</button>
+        <button onclick="showPage('feedback')">Feedback</button>
+        <button onclick="showPage('admin')">Admin</button>
+    </nav>
+</header>
+
+
+<!-- HOME -->
+<section id="home" class="page active">
+
+    <div class="hero">
+        <div class="hero-content">
+            <h1>Prime <span>News & Facts</span></h1>
+            <p>
+                Stay informed. Discover fascinating facts.
+                Your simple destination for daily news and knowledge.
+            </p>
+
+            <button class="main-btn" onclick="showPage('news')">
+                Read Today's News
+            </button>
+        </div>
+    </div>
+
+    <div class="home-sections">
+
+        <div class="home-box">
+            <h2>📰 Latest News</h2>
+            <p>
+                Catch up with the latest important news and
+                events from around the world.
+            </p>
+            <button class="main-btn" onclick="showPage('news')">
+                View News
+            </button>
+        </div>
+
+        <div class="home-box">
+            <h2>🧠 Daily Facts</h2>
+            <p>
+                Learn something new every day with interesting,
+                surprising and educational facts.
+            </p>
+            <button class="main-btn" onclick="showPage('facts')">
+                Explore Facts
+            </button>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- NEWS -->
+<section id="news" class="page">
+
+    <div class="container">
+
+        <div class="section-title">
+            <h1>📰 Today's News</h1>
+            <p>The latest news from Prime News & Facts</p>
+        </div>
+
+        <div id="newsContainer"></div>
+
+    </div>
+
+</section>
+
+
+<!-- FACTS -->
+<section id="facts" class="page">
+
+    <div class="container">
+
+        <div class="section-title">
+            <h1>🧠 Daily Facts</h1>
+            <p>Interesting things worth knowing</p>
+        </div>
+
+        <div id="factsContainer"></div>
+
+    </div>
+
+</section>
+
+
+<!-- FEEDBACK -->
+<section id="feedback" class="page">
+
+    <div class="container">
+
+        <div class="section-title">
+            <h1>💬 Feedback</h1>
+            <p>Tell us what you think about Prime News & Facts</p>
+        </div>
+
+        <div class="feedback-box">
+
+            <label>Your Name</label>
+            <input id="feedbackName" type="text" placeholder="Enter your name">
+
+            <label>Your Rating</label>
+
+            <div class="stars">
+                <span class="star" onclick="selectStar(1)">★</span>
+                <span class="star" onclick="selectStar(2)">★</span>
+                <span class="star" onclick="selectStar(3)">★</span>
+                <span class="star" onclick="selectStar(4)">★</span>
+                <span class="star" onclick="selectStar(5)">★</span>
+            </div>
+
+            <label>Your Feedback</label>
+
+            <textarea id="feedbackText"
+                placeholder="Write your feedback here..."></textarea>
+
+            <button class="main-btn" onclick="submitFeedback()">
+                Submit Feedback
+            </button>
+
+            <p id="feedbackMessage" class="admin-message"></p>
+
+        </div>
+
+        <div class="feedback-list">
+            <h2 style="margin-bottom:15px;">Recent Feedback</h2>
+            <div id="feedbackList"></div>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ADMIN -->
+<section id="admin" class="page">
+
+    <div class="container">
+
+        <div class="section-title">
+            <h1>🔐 Admin Panel</h1>
+            <p>Authorized administrators only</p>
+        </div>
+
+        <!-- LOGIN -->
+        <div id="adminLogin" class="admin-login">
+
+            <h2>Admin Login</h2>
+
+            <label>Password</label>
+
+            <input
+                id="adminPassword"
+                class="admin-input"
+                type="password"
+                placeholder="Enter admin password"
+            >
+
+            <button class="main-btn" onclick="loginAdmin()">
+                Login
+            </button>
+
+            <p id="loginMessage" class="admin-message"></p>
+
+        </div>
+
+
+        <!-- ADMIN PANEL -->
+        <div id="adminPanel" class="admin-panel">
+
+            <h2>⚙️ Manage Daily Content</h2>
+
+            <p>
+                Add exactly <b>3 News</b> and <b>3 Facts</b>.
+                Clicking <b>Publish</b> will replace all previous
+                News and Facts.
+            </p>
+
+
+            <!-- NEWS EDITORS -->
+
+            <h3>📰 News</h3>
+
+            <div class="item-editor">
+                <h4>News 1</h4>
+
+                <input id="newsTitle1"
+                    class="admin-input"
+                    placeholder="News title">
+
+                <textarea id="newsText1"
+                    class="admin-textarea"
+                    placeholder="News description"></textarea>
+
+                <label class="image-label" for="newsImage1">
+                    🖼️ Browse Image
+                </label>
+
+                <input id="newsImage1"
+                    class="image-input"
+                    type="file"
+                    accept="image/*"
+                    onchange="previewImage(this, 'newsPreview1', 'newsName1')">
+
+                <span id="newsName1" class="image-name">
+                    No image selected
+                </span>
+
+                <img id="newsPreview1" class="image-preview">
+            </div>
+
+
+            <div class="item-editor">
+                <h4>News 2</h4>
+
+                <input id="newsTitle2"
+                    class="admin-input"
+                    placeholder="News title">
+
+                <textarea id="newsText2"
+                    class="admin-textarea"
+                    placeholder="News description"></textarea>
+
+                <label class="image-label" for="newsImage2">
+                    🖼️ Browse Image
+                </label>
+
+                <input id="newsImage2"
+                    class="image-input"
+                    type="file"
+                    accept="image/*"
+                    onchange="previewImage(this, 'newsPreview2', 'newsName2')">
+
+                <span id="newsName2" class="image-name">
+                    No image selected
+                </span>
+
+                <img id="newsPreview2" class="image-preview">
+            </div>
+
+
+            <div class="item-editor">
+                <h4>News 3</h4>
+
+                <input id="newsTitle3"
+                    class="admin-input"
+                    placeholder="News title">
+
+                <textarea id="newsText3"
+                    class="admin-textarea"
+                    placeholder="News description"></textarea>
+
+                <label class="image-label" for="newsImage3">
+                    🖼️ Browse Image
+                </label>
+
+                <input id="newsImage3"
+                    class="image-input"
+                    type="file"
+                    accept="image/*"
+                    onchange="previewImage(this, 'newsPreview3', 'newsName3')">
+
+                <span id="newsName3" class="image-name">
+                    No image selected
+                </span>
+
+                <img id="newsPreview3" class="image-preview">
+            </div>
+
+
+            <!-- FACTS -->
+
+            <h3>🧠 Facts</h3>
+
+            <div class="item-editor">
+                <h4>Fact 1</h4>
+
+                <input id="factTitle1"
+                    class="admin-input"
+                    placeholder="Fact title">
+
+                <textarea id="factText1"
+                    class="admin-textarea"
+                    placeholder="Fact description"></textarea>
+
+                <label class="image-label" for="factImage1">
+                    🖼️ Browse Image
+                </label>
+
+                <input id="factImage1"
+                    class="image-input"
+                    type="file"
+                    accept="image/*"
+                    onchange="previewImage(this, 'factPreview1', 'factName1')">
+
+                <span id="factName1" class="image-name">
+                    No image selected
+                </span>
+
+                <img id="factPreview1" class="image-preview">
+            </div>
+
+
+            <div class="item-editor">
+                <h4>Fact 2</h4>
+
+                <input id="factTitle2"
+                    class="admin-input"
+                    placeholder="Fact title">
+
+                <textarea id="factText2"
+                    class="admin-textarea"
+                    placeholder="Fact description"></textarea>
+
+                <label class="image-label" for="factImage2">
+                    🖼️ Browse Image
+                </label>
+
+                <input id="factImage2"
+                    class="image-input"
+                    type="file"
+                    accept="image/*"
+                    onchange="previewImage(this, 'factPreview2', 'factName2')">
+
+                <span id="factName2" class="image-name">
+                    No image selected
+                </span>
+
+                <img id="factPreview2" class="image-preview">
+            </div>
+
+
+            <div class="item-editor">
+                <h4>Fact 3</h4>
+
+                <input id="factTitle3"
+                    class="admin-input"
+                    placeholder="Fact title">
+
+                <textarea id="factText3"
+                    class="admin-textarea"
+                    placeholder="Fact description"></textarea>
+
+                <label class="image-label" for="factImage3">
+                    🖼️ Browse Image
+                </label>
+
+                <input id="factImage3"
+                    class="image-input"
+                    type="file"
+                    accept="image/*"
+                    onchange="previewImage(this, 'factPreview3', 'factName3')">
+
+                <span id="factName3" class="image-name">
+                    No image selected
+                </span>
+
+                <img id="factPreview3" class="image-preview">
+            </div>
+
+
+            <button class="main-btn" onclick="publishContent()">
+                ➕ Publish New News & Facts
+            </button>
+
+            <button class="main-btn logout-btn" onclick="logoutAdmin()">
+                Logout
+            </button>
+
+            <p id="publishMessage" class="admin-message"></p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<footer>
+    © 2026 Prime News & Facts | News • Knowledge • Facts
+</footer>
+
+
+<script>
+
+/* =========================
+   DEFAULT CONTENT
+========================= */
+
+let news = [
+    {
+        title: "Welcome to Prime News & Facts",
+        text: "This is your first daily news article. Administrators can replace today's news from the Admin Panel.",
+        image: ""
+    },
+    {
+        title: "Stay Updated",
+        text: "Check Prime News & Facts regularly to discover the latest stories and important information.",
+        image: ""
+    },
+    {
+        title: "Your Daily Source",
+        text: "Our goal is to bring useful news and interesting information together in one simple place.",
+        image: ""
+    }
+];
+
+
+let facts = [
+    {
+        title: "Did You Know?",
+        text: "A day on Venus is longer than a year on Venus because Venus rotates extremely slowly.",
+        image: ""
+    },
+    {
+        title: "Amazing Space",
+        text: "Light from the Sun takes about 8 minutes and 20 seconds to reach Earth.",
+        image: ""
+    },
+    {
+        title: "Ocean Fact",
+        text: "The oceans cover roughly 71% of Earth's surface.",
+        image: ""
+    }
+];
+
+
+/* =========================
+   PAGE NAVIGATION
+========================= */
+
+function showPage(pageName) {
+
+    document.querySelectorAll(".page").forEach(page => {
+        page.classList.remove("active");
+    });
+
+    document.getElementById(pageName).classList.add("active");
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+}
+
+
+/* =========================
+   DISPLAY NEWS
+========================= */
+
+function displayNews() {
+
+    const container = document.getElementById("newsContainer");
+
+    container.innerHTML = "";
+
+    news.forEach((item, index) => {
+
+        const card = document.createElement("div");
+
+        card.className = "article-card";
+
+        if (!item.image) {
+            card.classList.add("no-image");
+        }
+
+        let imageHTML = "";
+
+        if (item.image) {
+            imageHTML = `
+                <div class="article-image">
+                    <img src="${escapeHTML(item.image)}"
+                         alt="News image">
+                </div>
+            `;
+        }
+
+        card.innerHTML = `
+            <div class="article-text">
+                <span class="date">NEWS ${index + 1}</span>
+                <h2>${escapeHTML(item.title)}</h2>
+                <p>${escapeHTML(item.text)}</p>
+            </div>
+            ${imageHTML}
+        `;
+
+        container.appendChild(card);
+    });
+}
+
+
+/* =========================
+   DISPLAY FACTS
+========================= */
+
+function displayFacts() {
+
+    const container = document.getElementById("factsContainer");
+
+    container.innerHTML = "";
+
+    facts.forEach((item, index) => {
+
+        const card = document.createElement("div");
+
+        card.className = "article-card";
+
+        if (!item.image) {
+            card.classList.add("no-image");
+        }
+
+        let imageHTML = "";
+
+        if (item.image) {
+            imageHTML = `
+                <div class="article-image">
+                    <img src="${escapeHTML(item.image)}"
+                         alt="Fact image">
+                </div>
+            `;
+        }
+
+        card.innerHTML = `
+            <div class="article-text">
+                <span class="date">FACT ${index + 1}</span>
+                <h2>${escapeHTML(item.title)}</h2>
+                <p>${escapeHTML(item.text)}</p>
+            </div>
+            ${imageHTML}
+        `;
+
+        container.appendChild(card);
+    });
+}
+
+
+/* =========================
+   ADMIN LOGIN
+========================= */
+
+function loginAdmin() {
+
+    const password =
+        document.getElementById("adminPassword").value;
+
+    const message =
+        document.getElementById("loginMessage");
+
+    if (password === "prm0987") {
+
+        document.getElementById("adminLogin").style.display = "none";
+
+        document.getElementById("adminPanel").style.display = "block";
+
+        message.innerHTML = "";
+
+        loadAdminFields();
+
+    } else {
+
+        message.style.color = "#d32f2f";
+
+        message.innerHTML = "❌ Incorrect password.";
+
+    }
+}
+
+
+/* =========================
+   LOGOUT
+========================= */
+
+function logoutAdmin() {
+
+    document.getElementById("adminPanel").style.display = "none";
+
+    document.getElementById("adminLogin").style.display = "block";
+
+    document.getElementById("adminPassword").value = "";
+
+    document.getElementById("loginMessage").innerHTML = "";
+
+}
+
+
+/* =========================
+   IMAGE BROWSE + PREVIEW
+========================= */
+
+function previewImage(input, previewID, nameID) {
+
+    const preview = document.getElementById(previewID);
+    const name = document.getElementById(nameID);
+
+    if (input.files && input.files[0]) {
+
+        const file = input.files[0];
+
+        name.textContent = file.name;
+
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+
+            preview.src = e.target.result;
+
+            preview.style.display = "block";
+
+        };
+
+        reader.readAsDataURL(file);
+
+    } else {
+
+        name.textContent = "No image selected";
+
+        preview.style.display = "none";
+
+    }
+}
+
+
+/* =========================
+   LOAD CURRENT CONTENT
+========================= */
+
+function loadAdminFields() {
+
+    news.forEach((item, i) => {
+
+        let number = i + 1;
+
+        document.getElementById("newsTitle" + number).value =
+            item.title;
+
+        document.getElementById("newsText" + number).value =
+            item.text;
+
+        if (item.image) {
+
+            const preview =
+                document.getElementById("newsPreview" + number);
+
+            const name =
+                document.getElementById("newsName" + number);
+
+            preview.src = item.image;
+
+            preview.style.display = "block";
+
+            name.textContent = "Current image";
+
+        }
+
+    });
+
+
+    facts.forEach((item, i) => {
+
+        let number = i + 1;
+
+        document.getElementById("factTitle" + number).value =
+            item.title;
+
+        document.getElementById("factText" + number).value =
+            item.text;
+
+        if (item.image) {
+
+            const preview =
+                document.getElementById("factPreview" + number);
+
+            const name =
+                document.getElementById("factName" + number);
+
+            preview.src = item.image;
+
+            preview.style.display = "block";
+
+            name.textContent = "Current image";
+
+        }
+
+    });
+}
+
+
+/* =========================
+   GET IMAGE AS DATA
+========================= */
+
+function getImageData(inputID, oldImage) {
+
+    const input = document.getElementById(inputID);
+
+    if (input.files && input.files[0]) {
+
+        return new Promise((resolve) => {
+
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                resolve(e.target.result);
+            };
+
+            reader.readAsDataURL(input.files[0]);
+
+        });
+
+    }
+
+    return Promise.resolve(oldImage || "");
+}
+
+
+/* =========================
+   PUBLISH NEW CONTENT
+========================= */
+
+async function publishContent() {
+
+    let newNews = [];
+    let newFacts = [];
+
+    /* NEWS */
+
+    for (let i = 1; i <= 3; i++) {
+
+        let title =
+            document.getElementById("newsTitle" + i).value.trim();
+
+        let text =
+            document.getElementById("newsText" + i).value.trim();
+
+        if (!title || !text) {
+
+            document.getElementById("publishMessage").style.color =
+                "#d32f2f";
+
+            document.getElementById("publishMessage").innerHTML =
+                "❌ Please complete all 3 News articles.";
+
+            return;
+        }
+
+        let image =
+            await getImageData(
+                "newsImage" + i,
+                news[i - 1].image
+            );
+
+        newNews.push({
+            title: title,
+            text: text,
+            image: image
+        });
+    }
+
+
+    /* FACTS */
+
+    for (let i = 1; i <= 3; i++) {
+
+        let title =
+            document.getElementById("factTitle" + i).value.trim();
+
+        let text =
+            document.getElementById("factText" + i).value.trim();
+
+        if (!title || !text) {
+
+            document.getElementById("publishMessage").style.color =
+                "#d32f2f";
+
+            document.getElementById("publishMessage").innerHTML =
+                "❌ Please complete all 3 Facts.";
+
+            return;
+        }
+
+        let image =
+            await getImageData(
+                "factImage" + i,
+                facts[i - 1].image
+            );
+
+        newFacts.push({
+            title: title,
+            text: text,
+            image: image
+        });
+    }
+
+
+    /* REPLACE OLD CONTENT */
+
+    news = newNews;
+
+    facts = newFacts;
+
+
+    displayNews();
+
+    displayFacts();
+
+
+    document.getElementById("publishMessage").style.color =
+        "#16803c";
+
+    document.getElementById("publishMessage").innerHTML =
+        "✅ Published! The old News and Facts have been replaced.";
+
+}
+
+
+/* =========================
+   STAR FEEDBACK
+========================= */
+
+let selectedRating = 0;
+
+
+function selectStar(number) {
+
+    selectedRating = number;
+
+    const stars =
+        document.querySelectorAll(".star");
+
+    stars.forEach((star, index) => {
+
+        if (index < number) {
+            star.classList.add("selected");
+        } else {
+            star.classList.remove("selected");
+        }
+
+    });
+}
+
+
+/* =========================
+   SUBMIT FEEDBACK
+========================= */
+
+function submitFeedback() {
+
+    const name =
+        document.getElementById("feedbackName").value.trim();
+
+    const text =
+        document.getElementById("feedbackText").value.trim();
+
+    const message =
+        document.getElementById("feedbackMessage");
+
+
+    if (!name) {
+
+        message.style.color = "#d32f2f";
+        message.innerHTML = "❌ Please enter your name.";
+        return;
+
+    }
+
+
+    if (selectedRating === 0) {
+
+        message.style.color = "#d32f2f";
+        message.innerHTML = "❌ Please select a star rating.";
+        return;
+
+    }
+
+
+    if (!text) {
+
+        message.style.color = "#d32f2f";
+        message.innerHTML = "❌ Please write your feedback.";
+        return;
+
+    }
+
+
+    let feedbacks =
+        JSON.parse(localStorage.getItem("primeFeedback")) || [];
+
+
+    feedbacks.unshift({
+
+        name: name,
+        rating: selectedRating,
+        text: text
+
+    });
+
+
+    localStorage.setItem(
+        "primeFeedback",
+        JSON.stringify(feedbacks)
+    );
+
+
+    document.getElementById("feedbackName").value = "";
+
+    document.getElementById("feedbackText").value = "";
+
+    selectedRating = 0;
+
+    document.querySelectorAll(".star").forEach(star => {
+        star.classList.remove("selected");
+    });
+
+
+    message.style.color = "#16803c";
+
+    message.innerHTML =
+        "✅ Thank you for your feedback!";
+
+
+    displayFeedback();
+
+}
+
+
+/* =========================
+   DISPLAY FEEDBACK
+========================= */
+
+function displayFeedback() {
+
+    const container =
+        document.getElementById("feedbackList");
+
+    let feedbacks =
+        JSON.parse(localStorage.getItem("primeFeedback")) || [];
+
+
+    container.innerHTML = "";
+
+
+    if (feedbacks.length === 0) {
+
+        container.innerHTML =
+            "<p>No feedback yet. Be the first!</p>";
+
+        return;
+
+    }
+
+
+    feedbacks.forEach(item => {
+
+        let stars = "";
+
+        for (let i = 1; i <= 5; i++) {
+
+            stars +=
+                i <= item.rating ? "★" : "☆";
+
+        }
+
+
+        const div =
+            document.createElement("div");
+
+        div.className = "feedback-item";
+
+        div.innerHTML = `
+            <strong>${escapeHTML(item.name)}</strong>
+
+            <div class="feedback-stars">
+                ${stars}
+            </div>
+
+            <p>${escapeHTML(item.text)}</p>
+        `;
+
+        container.appendChild(div);
+
+    });
+}
+
+
+/* =========================
+   SECURITY HELPER
+========================= */
+
+function escapeHTML(text) {
+
+    const div = document.createElement("div");
+
+    div.textContent = text;
+
+    return div.innerHTML;
+}
+
+
+/* =========================
+   START WEBSITE
+========================= */
+
+displayNews();
+
+displayFacts();
+
+displayFeedback();
+
+</script>
+
+</body>
+</html>
